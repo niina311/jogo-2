@@ -1,4 +1,4 @@
-import { perguntas } from "./perguntas.js";
+import { perguntas } from "./pergunta.js";
 import { aleatorio, nome } from "./aleatorio.js";
 
 let atual = 0;
@@ -21,31 +21,50 @@ function mostraPergunta() {
   sceneTitle.textContent = pergunta.enunciado;
   sceneCount.textContent = pausa ? "CONTINUIDADE" : "HISTÓRIA EM ANDAMENTO";
   answerList.replaceChildren();
-  answerList.hidden = pausa;
+  answerList.hidden = false;
   storyNote.hidden = !pausa;
 
   if (pausa) {
-    storyNote.textContent = "Este é um ponto de continuidade da história.";
+    storyNote.textContent = "Escolha como seguir a partir daqui.";
   }
 
   pergunta.alternativas.forEach((opcao, indice) => {
     const botao = document.createElement("button");
     botao.className = "answer-button";
     botao.type = "button";
-    botao.disabled = opcao.disponivel === false;
     botao.innerHTML = `<span class="answer-text"></span><span class="answer-arrow" aria-hidden="true">↗</span>`;
     botao.querySelector(".answer-text").textContent = opcao.texto;
-
-    if (!botao.disabled) {
-      botao.addEventListener("click", () => respostaSelecionada(opcao));
-    }
+    botao.addEventListener("click", () => respostaSelecionada(opcao));
 
     answerList.append(botao);
   });
 }
 
 function respostaSelecionada(opcaoSelecionada) {
-  if (opcaoSelecionada.disponivel === false || opcaoSelecionada.proxima === undefined) {
+  if (opcaoSelecionada.tipo === "gameover") {
+    mostraFimDeJogo(opcaoSelecionada);
+    return;
+  }
+
+  if (opcaoSelecionada.acao === "repetir") {
+    mostraPergunta();
+    return;
+  }
+
+  if (opcaoSelecionada.acao === "reiniciar") {
+    iniciaJogo();
+    return;
+  }
+
+  if (opcaoSelecionada.acao === "introducao") {
+    atual = 0;
+    historiaFinal = "";
+    storyScreen.hidden = true;
+    introScreen.hidden = false;
+    return;
+  }
+
+  if (opcaoSelecionada.proxima === undefined) {
     return;
   }
 
@@ -53,6 +72,26 @@ function respostaSelecionada(opcaoSelecionada) {
   historiaFinal += afirmacao + " ";
   atual = opcaoSelecionada.proxima;
   mostraPergunta();
+}
+
+function mostraFimDeJogo(opcaoSelecionada) {
+  sceneTitle.textContent = "Essa escolha colocou a equipe em risco.";
+  sceneCount.textContent = "FIM DE JOGO";
+  answerList.replaceChildren();
+  storyNote.hidden = false;
+  storyNote.textContent = `${aleatorio(opcaoSelecionada.afirmacao)} A aventura terminou. Volte ao começo para tentar novamente.`;
+
+  [
+    { texto: "Voltar ao começo", acao: "introducao" },
+  ].forEach((opcao) => {
+    const botao = document.createElement("button");
+    botao.className = "answer-button";
+    botao.type = "button";
+    botao.innerHTML = `<span class="answer-text"></span><span class="answer-arrow" aria-hidden="true">↗</span>`;
+    botao.querySelector(".answer-text").textContent = opcao.texto;
+    botao.addEventListener("click", () => respostaSelecionada(opcao));
+    answerList.append(botao);
+  });
 }
 
 function iniciaJogo() {

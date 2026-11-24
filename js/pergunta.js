@@ -20,6 +20,12 @@ export const perguntas = [
         tipo: "entrada",
         proxima: 2,
       },
+      {
+        texto: "Conversar com a equipe antes de decidir como usar o aparelho.",
+        afirmacao: ["Conversou com a equipe antes de decidir como usar a inteligência artificial."],
+        tipo: "entrada",
+        proxima: 2,
+      },
     ],
   },
   { // 1 — A1: início da experimentação
@@ -45,7 +51,6 @@ export const perguntas = [
         afirmacao: ["Decidiu investigar um áudio que circulava no bairro."],
         tipo: "trocar",
         proxima: 2,
-        disponivel: false,
       },
     ],
   },
@@ -73,7 +78,6 @@ export const perguntas = [
         afirmacao: ["Levou o caso para o trabalho escolar sobre IA."],
         tipo: "trocar",
         proxima: 1,
-        disponivel: false,
       },
     ],
   },
@@ -83,6 +87,11 @@ export const perguntas = [
       "A IA indica um possível riacho, mas não cita fontes. " +
       "Qual atitude você toma?",
     alternativas: [
+      {
+        texto: "Inventar a origem do riacho e mandar todos até lá.",
+        afirmacao: ["Inventou uma fonte para sustentar a resposta."],
+        tipo: "gameover",
+      },
       {
         texto: "Conferir sinais no terreno e fontes confiáveis antes de levar o grupo.",
         afirmacao: ["Conferiu fontes antes de planejar a demonstração."],
@@ -94,12 +103,6 @@ export const perguntas = [
         afirmacao: ["Retomou o teste inicial com uma pergunta mais clara."],
         tipo: "salto",
         proxima: 1,
-      },
-      {
-        texto: "Inventar a origem do riacho e mandar todos até lá.",
-        afirmacao: ["Inventou uma fonte para sustentar a resposta."],
-        tipo: "gameover",
-        disponivel: false,
       },
     ],
   },
@@ -126,7 +129,6 @@ export const perguntas = [
         afirmacao: ["Decidiu colaborar com a orientação dos moradores."],
         tipo: "trocar",
         proxima: 8,
-        disponivel: false,
       },
     ],
   },
@@ -137,12 +139,6 @@ export const perguntas = [
       "da IA para localizar água. O que você faz?",
     alternativas: [
       {
-        texto: "Explicar que as respostas da IA precisam ser conferidas antes de orientar o grupo.",
-        afirmacao: ["Acrescentou os limites da ferramenta ao material."],
-        tipo: "avancar",
-        proxima: 6,
-      },
-      {
         texto: "Voltar à conferência da rota e revisar os sinais encontrados.",
         afirmacao: ["Voltou à conferência das fontes para revisar o material."],
         tipo: "salto",
@@ -152,7 +148,12 @@ export const perguntas = [
         texto: "Divulgar a localização exata e os dados dos colegas sem autorização.",
         afirmacao: ["Expôs dados pessoais dos colegas sem autorização."],
         tipo: "gameover",
-        disponivel: false,
+      },
+      {
+        texto: "Explicar que as respostas da IA precisam ser conferidas antes de orientar o grupo.",
+        afirmacao: ["Acrescentou os limites da ferramenta ao material."],
+        tipo: "avancar",
+        proxima: 6,
       },
     ],
   },
@@ -179,7 +180,6 @@ export const perguntas = [
         afirmacao: ["Decidiu levar o material ao encontro dos moradores."],
         tipo: "trocar",
         proxima: 10,
-        disponivel: false,
       },
     ],
   },
@@ -189,6 +189,11 @@ export const perguntas = [
       "O áudio não tem uma origem identificada. " +
       "Como continuar a investigação?",
     alternativas: [
+      {
+        texto: "Acusar outro sobrevivente sem qualquer prova.",
+        afirmacao: ["Acusou um colega publicamente sem provas."],
+        tipo: "gameover",
+      },
       {
         texto: "Sintonizar o canal oficial da escola e da equipe de resgate.",
         afirmacao: ["Consultou os canais oficiais da escola."],
@@ -200,12 +205,6 @@ export const perguntas = [
         afirmacao: ["Retomou a busca pela origem e por outras versões do áudio."],
         tipo: "salto",
         proxima: 2,
-      },
-      {
-        texto: "Acusar outro sobrevivente sem qualquer prova.",
-        afirmacao: ["Acusou um colega publicamente sem provas."],
-        tipo: "gameover",
-        disponivel: false,
       },
     ],
   },
@@ -232,7 +231,6 @@ export const perguntas = [
         afirmacao: ["Decidiu transformar o caso em uma demonstração escolar."],
         tipo: "trocar",
         proxima: 4,
-        disponivel: false,
       },
     ],
   },
@@ -258,7 +256,6 @@ export const perguntas = [
         texto: "Criar um falso aviso de resgate e espalhá-lo pelo acampamento.",
         afirmacao: ["Criou e divulgou outro áudio falso como verdadeiro."],
         tipo: "gameover",
-        disponivel: false,
       },
     ],
   },
@@ -275,16 +272,15 @@ export const perguntas = [
         proxima: 12,
       },
       {
+        texto: "Expor conversas privadas dos colegas sem autorização.",
+        afirmacao: ["Expôs conversas privadas de moradores sem autorização."],
+        tipo: "gameover",
+      },
+      {
         texto: "Voltar à revisão para melhorar as orientações do acampamento.",
         afirmacao: ["Voltou à revisão das orientações da campanha."],
         tipo: "salto",
         proxima: 9,
-      },
-      {
-        texto: "Expor conversas privadas dos colegas sem autorização.",
-        afirmacao: ["Expôs conversas privadas de moradores sem autorização."],
-        tipo: "gameover",
-        disponivel: false,
       },
     ],
   },
@@ -293,17 +289,43 @@ export const perguntas = [
     pausa: true,
     enunciado:
       "Seu guia para localizar água e usar a IA com responsabilidade " +
-      "está pronto para compartilhar com a turma. O próximo desafio " +
-      "será apresentar o plano.",
-    alternativas: [],
+      "está pronto para compartilhar com a turma. O que você quer fazer agora?",
+    alternativas: [
+      {
+        texto: "Rever como organizou o plano.",
+        afirmacao: ["Reviu a organização do plano."],
+        proxima: 6,
+      },
+      {
+        texto: "Recomeçar a aventura.",
+        acao: "reiniciar",
+      },
+      {
+        texto: "Voltar à introdução.",
+        acao: "introducao",
+      },
+    ],
   },
   { // 12 — continuidade B
     caminho: "B",
     pausa: true,
     enunciado:
       "Seu material para verificar o áudio e orientar outros grupos " +
-      "está pronto. O próximo desafio será conversar com os " +
-      "sobreviventes do acampamento.",
-    alternativas: [],
+      "está pronto. O que você quer fazer agora?",
+    alternativas: [
+      {
+        texto: "Rever como organizou o encontro.",
+        afirmacao: ["Reviu a organização do encontro."],
+        proxima: 10,
+      },
+      {
+        texto: "Recomeçar a aventura.",
+        acao: "reiniciar",
+      },
+      {
+        texto: "Voltar à introdução.",
+        acao: "introducao",
+      },
+    ],
   },
 ];
